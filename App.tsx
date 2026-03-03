@@ -17,6 +17,7 @@ const INITIAL_STATE: AppState = {
   era: '',
   requirements: '',
   concurrencyLimit: 5,
+  aspectRatio: '16:9',
   analysis: null,
   imageModel: ModelType.IMAGE_2_5_FLASH,
   savedProjects: []
@@ -347,6 +348,32 @@ const App: React.FC = () => {
 
                 <div>
                   <label className="block text-base font-medium text-slate-300 mb-3 flex items-center">
+                    <Eye className="w-5 h-5 mr-2" />
+                    畫面比例 (Aspect Ratio)
+                  </label>
+                  <div className="flex flex-wrap gap-2.5">
+                    {[
+                      { id: '16:9', name: '16:9 (YouTube/電影)' },
+                      { id: '9:16', name: '9:16 (Reels/Shorts)' },
+                      { id: '1:1', name: '1:1 (IG 貼文)' }
+                    ].map((ratio) => (
+                      <button
+                        key={ratio.id}
+                        onClick={() => setState(prev => ({ ...prev, aspectRatio: ratio.id }))}
+                        className={`text-sm px-4 py-2 rounded-full border transition-all ${
+                          state.aspectRatio === ratio.id
+                            ? 'bg-indigo-600 border-indigo-500 text-white shadow-md shadow-indigo-500/30'
+                            : 'bg-slate-800 border-slate-700 text-slate-400 hover:border-slate-600 hover:text-slate-300'
+                        }`}
+                      >
+                        {ratio.name}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-base font-medium text-slate-300 mb-3 flex items-center">
                     <Settings className="w-5 h-5 mr-2" />
                     並行生成數量 (Concurrency Limit)
                   </label>
@@ -659,6 +686,7 @@ const App: React.FC = () => {
                       <React.Fragment key={shot.id}>
                         <ShotCard 
                           shot={shot} 
+                          aspectRatio={state.aspectRatio}
                           onFieldChange={handleFieldChange}
                           onVersionChange={handleVersionChange}
                           onRegenerate={handleRegenerateShot}

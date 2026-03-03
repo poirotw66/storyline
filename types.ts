@@ -63,6 +63,7 @@ export interface AppState {
   era: string; // Added for era/setting
   requirements: string;
   concurrencyLimit: number; // Added for concurrency control
+  aspectRatio: string; // Added for image aspect ratio
   analysis: ScriptAnalysis | null;
   imageModel: string; // Added for model selection
   error?: string;

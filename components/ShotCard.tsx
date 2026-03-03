@@ -4,6 +4,7 @@ import { Camera, Music, Lightbulb, Loader2, ImageOff, ChevronLeft, ChevronRight,
 
 interface ShotCardProps {
   shot: StoryboardShot;
+  aspectRatio: string;
   onFieldChange: (id: number, field: keyof StoryboardShot, value: string) => void;
   onVersionChange: (id: number, direction: 'prev' | 'next') => void;
   onRegenerate: (id: number) => void;
@@ -28,15 +29,24 @@ const CAMERA_MOVEMENTS = [
   "升降 (Crane)", "甩鏡頭 (Whip Pan)", "變焦 (Zoom)"
 ];
 
-export const ShotCard: React.FC<ShotCardProps> = ({ shot, onFieldChange, onVersionChange, onRegenerate }) => {
+export const ShotCard: React.FC<ShotCardProps> = ({ shot, aspectRatio, onFieldChange, onVersionChange, onRegenerate }) => {
   const currentVersion = shot.selectedVersionIndex + 1;
   const totalVersions = shot.versions.length;
+
+  const getAspectRatioClass = (ratio: string) => {
+    switch (ratio) {
+      case '9:16': return 'aspect-[9/16] w-full lg:w-3/12';
+      case '1:1': return 'aspect-square w-full lg:w-4/12';
+      case '16:9':
+      default: return 'aspect-video w-full lg:w-5/12';
+    }
+  };
 
   return (
     <div id={`shot-${shot.id}`} className="shot-card bg-slate-800 border border-slate-700 rounded-xl overflow-hidden shadow-lg flex flex-col lg:flex-row transition-all hover:border-indigo-500/30 group mb-6">
       
-      {/* Image Section - STRICT 16:9 Aspect Ratio Container - Compact Width (5/12) */}
-      <div className="w-full lg:w-5/12 flex-shrink-0 bg-black aspect-video relative group border-b lg:border-b-0 lg:border-r border-slate-700/50">
+      {/* Image Section */}
+      <div className={`${getAspectRatioClass(aspectRatio)} flex-shrink-0 bg-black relative group border-b lg:border-b-0 lg:border-r border-slate-700/50`}>
         
         {/* Image Display */}
         {shot.imageUrl ? (

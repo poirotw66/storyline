@@ -109,7 +109,7 @@ export const useStoryboardGeneration = ({
                 Character Definitions: ${state.analysis?.character_definitions || 'None specified'}
                 Shot Details: ${currentV.visual_prompt}
               `;
-              const base64Image = await generateShotImage(fullPrompt, state.imageModel);
+              const base64Image = await generateShotImage(fullPrompt, state.imageModel, state.aspectRatio);
               
               setState(prev => {
                 if (!prev.analysis) return prev;
@@ -193,7 +193,7 @@ export const useStoryboardGeneration = ({
         Shot Details: ${shot.shot_description}. Shot Size: ${shot.shot_size}. Angle: ${shot.camera_angle}. Movement: ${shot.camera_movement}. Lighting: ${shot.lighting}. Style: Film Storyboard Sketch.
       `;
       
-      const base64Image = await generateShotImage(combinedPrompt, state.imageModel);
+      const base64Image = await generateShotImage(combinedPrompt, state.imageModel, state.aspectRatio);
 
       const newVersion: ShotVersion = {
         id: `${shotId}-v${shot.versions.length + 1}`,

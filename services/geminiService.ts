@@ -113,11 +113,11 @@ export const analyzeScript = async (script: string, requirements: string, era: s
 /**
  * Generates a single storyboard image based on a visual prompt.
  */
-export const generateShotImage = async (visualPrompt: string, modelName: string = ModelType.IMAGE_2_5_FLASH): Promise<string | null> => {
+export const generateShotImage = async (visualPrompt: string, modelName: string = ModelType.IMAGE_2_5_FLASH, aspectRatio: string = "16:9"): Promise<string | null> => {
   try {
     // Standardized Noir/Charcoal Sketch Style for consistency
     // We enforce a dark, serious, and cinematic rough sketch look.
-    const stylePrefix = "Professional movie storyboard sketch, masterpiece, rough charcoal and graphite style, deep shadows, high contrast noir aesthetic, atmospheric lighting, 16:9 widescreen composition. ";
+    const stylePrefix = `Professional movie storyboard sketch, masterpiece, rough charcoal and graphite style, deep shadows, high contrast noir aesthetic, atmospheric lighting, ${aspectRatio} composition. `;
     
     // Check if prompt already has the prefix (reuse case) to avoid duplication
     const finalPrompt = visualPrompt.includes("Professional movie storyboard sketch") 
@@ -139,7 +139,7 @@ export const generateShotImage = async (visualPrompt: string, modelName: string 
       },
       config: {
         imageConfig: {
-          aspectRatio: "16:9"
+          aspectRatio: aspectRatio
         }
       }
     });
