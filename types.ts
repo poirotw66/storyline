@@ -62,6 +62,7 @@ export interface AppState {
   script: string;
   era: string; // Added for era/setting
   requirements: string;
+  concurrencyLimit: number; // Added for concurrency control
   analysis: ScriptAnalysis | null;
   imageModel: string; // Added for model selection
   error?: string;

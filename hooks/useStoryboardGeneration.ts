@@ -75,80 +75,95 @@ export const useStoryboardGeneration = ({
       const generateAllImages = async () => {
         isGeneratingImages.current = true;
         const shots = state.analysis?.shots || [];
+        const CONCURRENCY_LIMIT = state.concurrencyLimit || 5;
         
-        for (let i = 0; i < shots.length; i++) {
-          const shot = shots[i];
-          const currentV = shot.versions[shot.selectedVersionIndex];
-          
-          if (currentV.imageUrl || !currentV.visual_prompt) {
-            if (shot.isGeneratingImage) {
+        let index = 0;
+        let hasError = false;
+
+        const worker = async () => {
+          while (index < shots.length && !hasError) {
+            const i = index++;
+            const shot = shots[i];
+            const currentV = shot.versions[shot.selectedVersionIndex];
+            
+            if (currentV.imageUrl || !currentV.visual_prompt) {
+              if (shot.isGeneratingImage) {
+                setState(prev => {
+                  if (!prev.analysis) return prev;
+                  const newShots = [...prev.analysis.shots];
+                  newShots[i] = { ...newShots[i], isGeneratingImage: false };
+                  return { ...prev, analysis: { ...prev.analysis, shots: newShots } };
+                });
+              }
+              continue;
+            }
+
+            setState(prev => ({
+              ...prev,
+              progressMessage: `正在繪製分鏡 ${shot.id}: ${shot.shot_description.substring(0, 15)}...`
+            }));
+
+            try {
+              const fullPrompt = `
+                Historical Context: ${state.analysis?.historical_context || 'None specified'}
+                Character Definitions: ${state.analysis?.character_definitions || 'None specified'}
+                Shot Details: ${currentV.visual_prompt}
+              `;
+              const base64Image = await generateShotImage(fullPrompt, state.imageModel);
+              
+              setState(prev => {
+                if (!prev.analysis) return prev;
+                const newShots = [...prev.analysis.shots];
+                const updatedVersions = [...newShots[i].versions];
+                
+                updatedVersions[newShots[i].selectedVersionIndex] = {
+                  ...updatedVersions[newShots[i].selectedVersionIndex],
+                  imageUrl: base64Image || undefined
+                };
+
+                newShots[i] = {
+                  ...newShots[i],
+                  imageUrl: base64Image || undefined,
+                  versions: updatedVersions,
+                  isGeneratingImage: false
+                };
+                return {
+                   ...prev,
+                   analysis: { ...prev.analysis, shots: newShots }
+                };
+              });
+            } catch (e: any) {
+              console.error(`Failed to generate image for shot ${shot.id}`, e);
+              
               setState(prev => {
                 if (!prev.analysis) return prev;
                 const newShots = [...prev.analysis.shots];
                 newShots[i] = { ...newShots[i], isGeneratingImage: false };
                 return { ...prev, analysis: { ...prev.analysis, shots: newShots } };
               });
-            }
-            continue;
-          }
 
-          setState(prev => ({
-            ...prev,
-            progressMessage: `正在繪製分鏡 ${shot.id}: ${shot.shot_description.substring(0, 15)}...`
-          }));
-
-          try {
-            const fullPrompt = `
-              Historical Context: ${state.analysis.historical_context || 'None specified'}
-              Character Definitions: ${state.analysis.character_definitions || 'None specified'}
-              Shot Details: ${currentV.visual_prompt}
-            `;
-            const base64Image = await generateShotImage(fullPrompt, state.imageModel);
-            
-            setState(prev => {
-              if (!prev.analysis) return prev;
-              const newShots = [...prev.analysis.shots];
-              const updatedVersions = [...newShots[i].versions];
-              
-              updatedVersions[newShots[i].selectedVersionIndex] = {
-                ...updatedVersions[newShots[i].selectedVersionIndex],
-                imageUrl: base64Image || undefined
-              };
-
-              newShots[i] = {
-                ...newShots[i],
-                imageUrl: base64Image || undefined,
-                versions: updatedVersions,
-                isGeneratingImage: false
-              };
-              return {
-                 ...prev,
-                 analysis: { ...prev.analysis, shots: newShots }
-              };
-            });
-          } catch (e: any) {
-            console.error(`Failed to generate image for shot ${shot.id}`, e);
-            
-            setState(prev => {
-              if (!prev.analysis) return prev;
-              const newShots = [...prev.analysis.shots];
-              newShots[i] = { ...newShots[i], isGeneratingImage: false };
-              return { ...prev, analysis: { ...prev.analysis, shots: newShots } };
-            });
-
-            if (e.message === 'API_KEY_REQUIRED') {
-              setState(prev => ({
-                ...prev,
-                step: 'error',
-                error: "使用此模型需要付費 API Key。請在首頁重新選擇模型並完成授權。"
-              }));
-              isGeneratingImages.current = false;
-              return; // Stop the loop
+              if (e.message === 'API_KEY_REQUIRED') {
+                setState(prev => ({
+                  ...prev,
+                  step: 'error',
+                  error: "使用此模型需要付費 API Key。請在首頁重新選擇模型並完成授權。"
+                }));
+                hasError = true;
+                break; // Stop the loop
+              }
             }
           }
+        };
+
+        const workers = [];
+        for (let i = 0; i < CONCURRENCY_LIMIT; i++) {
+          workers.push(worker());
         }
+        await Promise.all(workers);
         
-        setState(prev => ({ ...prev, step: 'complete', progressMessage: undefined }));
+        if (!hasError) {
+          setState(prev => ({ ...prev, step: 'complete', progressMessage: undefined }));
+        }
         isGeneratingImages.current = false;
       };
 

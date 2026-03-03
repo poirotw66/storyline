@@ -16,6 +16,7 @@ const INITIAL_STATE: AppState = {
   script: '',
   era: '',
   requirements: '',
+  concurrencyLimit: 5,
   analysis: null,
   imageModel: ModelType.IMAGE_2_5_FLASH,
   savedProjects: []
@@ -342,6 +343,29 @@ const App: React.FC = () => {
                       </a>
                     </p>
                   )}
+                </div>
+
+                <div>
+                  <label className="block text-base font-medium text-slate-300 mb-3 flex items-center">
+                    <Settings className="w-5 h-5 mr-2" />
+                    並行生成數量 (Concurrency Limit)
+                  </label>
+                  <div className="flex items-center space-x-4">
+                    <input
+                      type="range"
+                      min="1"
+                      max="10"
+                      value={state.concurrencyLimit}
+                      onChange={(e) => setState(prev => ({ ...prev, concurrencyLimit: parseInt(e.target.value, 10) }))}
+                      className="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-indigo-500"
+                    />
+                    <span className="text-white font-mono bg-slate-800 px-3 py-1 rounded-lg border border-slate-700 min-w-[3rem] text-center">
+                      {state.concurrencyLimit}
+                    </span>
+                  </div>
+                  <p className="mt-2 text-xs text-slate-500">
+                    設定同時生成圖片的數量。預設為 5，數值越高速度越快，但可能較容易觸發 API 頻率限制。
+                  </p>
                 </div>
 
                 <div>
