@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>StoryBoard Pro AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+      body {
+        font-family: 'Inter', sans-serif;
+        background-color: #0f172a; /* Slate 900 */
+        color: #e2e8f0; /* Slate 200 */
+      }
+      /* Custom Scrollbar */
+      ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #1e293b;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #475569;
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #64748b;
+      }
+
+      /* Print / Export Styles */
+      @media print {
+        @page {
+          size: A4;
+          margin: 1cm;
+        }
+        body {
+          background-color: white !important;
+          color: black !important;
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+        #root {
+          width: 100% !important;
+          max-width: 100% !important;
+          margin: 0 !important;
+          padding: 0 !important;
+        }
+        main {
+          width: 100% !important;
+          max-width: 100% !important;
+          margin: 0 !important;
+          padding: 0 !important;
+        }
+        .no-print, header, footer, button, nav, .InsertButton {
+          display: none !important;
+        }
+        /* Ensure inputs look like text */
+        input, textarea, select {
+          border: none !important;
+          background: transparent !important;
+          color: black !important;
+          resize: none !important;
+          padding: 0 !important;
+          appearance: none !important;
+          width: 100% !important;
+          overflow: visible !important;
+        }
+        /* Hide scrollbars in print */
+        ::-webkit-scrollbar {
+          display: none;
+        }
+        /* Ensure images print */
+        img {
+          break-inside: avoid;
+          max-width: 100% !important;
+        }
+        /* Page breaks */
+        .shot-card {
+          display: flex !important;
+          flex-direction: row !important;
+          break-inside: avoid;
+          page-break-inside: avoid;
+          border: 1px solid #eee !important;
+          box-shadow: none !important;
+          margin-bottom: 20px !important;
+          background: white !important;
+          width: 100% !important;
+        }
+        .shot-card > div:first-child {
+          width: 35% !important;
+          border-right: 1px solid #eee !important;
+          border-bottom: none !important;
+        }
+        .shot-card > div:last-child {
+          width: 65% !important;
+          padding: 10px !important;
+        }
+        .print-text-dark {
+          color: #000 !important;
+        }
+        .print-text-gray {
+           color: #666 !important;
+        }
+        /* Hide sidebar and other non-essential elements */
+        .sidebar-nav {
+          display: none !important;
+        }
+        .overview-card {
+          border: 1px solid #eee !important;
+          padding: 20px !important;
+          margin-bottom: 30px !important;
+        }
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.555.0",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.30.0"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body>
+    <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>
