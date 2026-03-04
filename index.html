@@ -46,31 +46,40 @@
       
       /* Dusk Theme overrides */
       body.theme-dusk {
-        /* Map slate (cool gray) to stone (warm gray) for a warm dark theme */
-        --color-slate-50: #fafaf9;
-        --color-slate-100: #f5f5f4;
-        --color-slate-200: #e7e5e4;
-        --color-slate-300: #d6d3d1;
-        --color-slate-400: #a8a29e;
-        --color-slate-500: #78716c;
-        --color-slate-600: #57534e;
-        --color-slate-700: #44403c;
-        --color-slate-800: #292524;
-        --color-slate-900: #1c1917;
-        --color-slate-950: #0c0a09;
+        /* Map slate to the provided warm grays (10, 3, 9, 4, 6) */
+        --color-slate-50: #F8F5F2;
+        --color-slate-100: #F0EAE6;
+        --color-slate-200: #E6DBD5;
+        --color-slate-300: #DDD0C8; /* 6 */
+        --color-slate-400: #B7B7BD; /* 4 */
+        --color-slate-500: #B1ACB3; /* 9 */
+        --color-slate-600: #ADAAA5; /* 3 */
+        --color-slate-700: #7A7C82; 
+        --color-slate-800: #53565C; /* 10 - Cards */
+        --color-slate-900: #45474C; /* Headers */
+        --color-slate-950: #36383C; /* Main BG */
         
-        /* Map indigo (cool accent) to orange (warm accent) */
-        --color-indigo-50: #fff7ed;
-        --color-indigo-100: #ffedd5;
-        --color-indigo-200: #fed7aa;
-        --color-indigo-300: #fdba74;
-        --color-indigo-400: #fb923c;
-        --color-indigo-500: #f97316;
-        --color-indigo-600: #ea580c;
-        --color-indigo-700: #c2410c;
-        --color-indigo-800: #9a3412;
-        --color-indigo-900: #7c2d12;
-        --color-indigo-950: #431407;
+        /* Map indigo to the provided muted rose/mauve (1, 7, 2, 8) */
+        --color-indigo-50: #FDFBFA;
+        --color-indigo-100: #FAF5F5;
+        --color-indigo-200: #F2E6E5;
+        --color-indigo-300: #E2C6C4; /* 8 */
+        --color-indigo-400: #D4B8B4; /* 2 - Text highlights */
+        --color-indigo-500: #A08887; /* 7 - Button Hover */
+        --color-indigo-600: #8C736F; /* 1 - Main Button */
+        --color-indigo-700: #6E5A57; 
+        --color-indigo-800: #544442;
+        --color-indigo-900: #3A2F2D;
+        --color-indigo-950: #261F1E;
+
+        /* Map emerald to the provided sage green (5) */
+        --color-emerald-300: #C1CEC2;
+        --color-emerald-400: #AAB8AB; /* 5 */
+        --color-emerald-500: #8FA390;
+        
+        /* Map amber to warm tones to fit the palette */
+        --color-amber-400: #D4B8B4; /* 2 */
+        --color-amber-500: #A08887; /* 7 */
       }
 
       body {
