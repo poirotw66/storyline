@@ -3,14 +3,81 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>StoryBoard Pro AI</title>
+    <title>十頁分鏡</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              slate: {
+                50: 'var(--color-slate-50, #f8fafc)',
+                100: 'var(--color-slate-100, #f1f5f9)',
+                200: 'var(--color-slate-200, #e2e8f0)',
+                300: 'var(--color-slate-300, #cbd5e1)',
+                400: 'var(--color-slate-400, #94a3b8)',
+                500: 'var(--color-slate-500, #64748b)',
+                600: 'var(--color-slate-600, #475569)',
+                700: 'var(--color-slate-700, #334155)',
+                800: 'var(--color-slate-800, #1e293b)',
+                900: 'var(--color-slate-900, #0f172a)',
+                950: 'var(--color-slate-950, #020617)',
+              },
+              indigo: {
+                50: 'var(--color-indigo-50, #eef2ff)',
+                100: 'var(--color-indigo-100, #e0e7ff)',
+                200: 'var(--color-indigo-200, #c7d2fe)',
+                300: 'var(--color-indigo-300, #a5b4fc)',
+                400: 'var(--color-indigo-400, #818cf8)',
+                500: 'var(--color-indigo-500, #6366f1)',
+                600: 'var(--color-indigo-600, #4f46e5)',
+                700: 'var(--color-indigo-700, #4338ca)',
+                800: 'var(--color-indigo-800, #3730a3)',
+                900: 'var(--color-indigo-900, #312e81)',
+                950: 'var(--color-indigo-950, #1e1b4b)',
+              }
+            }
+          }
+        }
+      }
+    </script>
     <style>
       @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+      
+      /* Dusk Theme overrides */
+      body.theme-dusk {
+        /* Map slate (cool gray) to stone (warm gray) for a warm dark theme */
+        --color-slate-50: #fafaf9;
+        --color-slate-100: #f5f5f4;
+        --color-slate-200: #e7e5e4;
+        --color-slate-300: #d6d3d1;
+        --color-slate-400: #a8a29e;
+        --color-slate-500: #78716c;
+        --color-slate-600: #57534e;
+        --color-slate-700: #44403c;
+        --color-slate-800: #292524;
+        --color-slate-900: #1c1917;
+        --color-slate-950: #0c0a09;
+        
+        /* Map indigo (cool accent) to orange (warm accent) */
+        --color-indigo-50: #fff7ed;
+        --color-indigo-100: #ffedd5;
+        --color-indigo-200: #fed7aa;
+        --color-indigo-300: #fdba74;
+        --color-indigo-400: #fb923c;
+        --color-indigo-500: #f97316;
+        --color-indigo-600: #ea580c;
+        --color-indigo-700: #c2410c;
+        --color-indigo-800: #9a3412;
+        --color-indigo-900: #7c2d12;
+        --color-indigo-950: #431407;
+      }
+
       body {
         font-family: 'Inter', sans-serif;
         background-color: #0f172a; /* Slate 900 */
         color: #e2e8f0; /* Slate 200 */
+        transition: background-color 0.3s ease, color 0.3s ease;
       }
       /* Custom Scrollbar */
       ::-webkit-scrollbar {

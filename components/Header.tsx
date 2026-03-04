@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Clapperboard, Settings } from 'lucide-react';
 import { SettingsModal } from './SettingsModal';
 
-export const Header: React.FC = () => {
+export const Header: React.FC<{ theme: 'dark' | 'dusk', setTheme: (theme: 'dark' | 'dusk') => void }> = ({ theme, setTheme }) => {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
   return (
@@ -14,7 +14,7 @@ export const Header: React.FC = () => {
               <Clapperboard className="w-6 h-6 text-white" />
             </div>
             <h1 className="text-xl font-bold text-white tracking-tight">
-              十頁分鏡
+              DraftFlow
             </h1>
           </div>
           <div className="flex items-center space-x-4">
@@ -35,6 +35,8 @@ export const Header: React.FC = () => {
       <SettingsModal 
         isOpen={isSettingsOpen} 
         onClose={() => setIsSettingsOpen(false)} 
+        theme={theme}
+        setTheme={setTheme}
       />
     </>
   );

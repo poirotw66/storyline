@@ -1,20 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import { X, Key, Save } from 'lucide-react';
+import { X, Key, Save, Moon, Sunset, Settings } from 'lucide-react';
 
 interface SettingsModalProps {
   isOpen: boolean;
   onClose: () => void;
+  theme: 'dark' | 'dusk';
+  setTheme: (theme: 'dark' | 'dusk') => void;
 }
 
-export const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose }) => {
+export const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, theme, setTheme }) => {
   const [apiKey, setApiKey] = useState('');
+  const [localTheme, setLocalTheme] = useState<'dark' | 'dusk'>(theme);
 
   useEffect(() => {
     if (isOpen) {
       const savedKey = localStorage.getItem('storyboard_pro_custom_api_key') || '';
       setApiKey(savedKey);
+      setLocalTheme(theme);
     }
-  }, [isOpen]);
+  }, [isOpen, theme]);
 
   const handleSave = () => {
     if (apiKey.trim()) {
@@ -22,6 +26,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose })
     } else {
       localStorage.removeItem('storyboard_pro_custom_api_key');
     }
+    setTheme(localTheme);
     onClose();
   };
 
@@ -32,8 +37,8 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose })
       <div className="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-md shadow-2xl overflow-hidden animate-fade-in-up">
         <div className="flex items-center justify-between p-5 border-b border-slate-800">
           <h2 className="text-lg font-bold text-white flex items-center">
-            <Key className="w-5 h-5 mr-2 text-indigo-400" />
-            設定 Gemini API Key
+            <Settings className="w-5 h-5 mr-2 text-indigo-400" />
+            系統設定
           </h2>
           <button 
             onClick={onClose}
@@ -43,9 +48,42 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose })
           </button>
         </div>
         
-        <div className="p-6 space-y-4">
+        <div className="p-6 space-y-6">
+          {/* Theme Selection */}
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">
+            <label className="block text-sm font-medium text-slate-300 mb-3 flex items-center">
+              <Moon className="w-4 h-4 mr-2 text-indigo-400" />
+              介面主題
+            </label>
+            <div className="grid grid-cols-2 gap-3">
+              <button
+                onClick={() => setLocalTheme('dark')}
+                className={`flex flex-col items-center justify-center p-4 rounded-xl border-2 transition-all ${
+                  localTheme === 'dark' 
+                    ? 'border-indigo-500 bg-indigo-500/10 text-white' 
+                    : 'border-slate-700 bg-slate-800 text-slate-400 hover:border-slate-600 hover:bg-slate-700'
+                }`}
+              >
+                <Moon className="w-6 h-6 mb-2" />
+                <span className="text-sm font-medium">黑夜 (Night)</span>
+              </button>
+              <button
+                onClick={() => setLocalTheme('dusk')}
+                className={`flex flex-col items-center justify-center p-4 rounded-xl border-2 transition-all ${
+                  localTheme === 'dusk' 
+                    ? 'border-amber-500 bg-amber-500/10 text-white' 
+                    : 'border-slate-700 bg-slate-800 text-slate-400 hover:border-slate-600 hover:bg-slate-700'
+                }`}
+              >
+                <Sunset className="w-6 h-6 mb-2" />
+                <span className="text-sm font-medium">黃昏 (Dusk)</span>
+              </button>
+            </div>
+          </div>
+
+          <div className="border-t border-slate-800 pt-6">
+            <label className="block text-sm font-medium text-slate-300 mb-2 flex items-center">
+              <Key className="w-4 h-4 mr-2 text-indigo-400" />
               自訂 API Key (選填)
             </label>
             <input

@@ -64,6 +64,7 @@ export interface AppState {
   requirements: string;
   concurrencyLimit: number; // Added for concurrency control
   aspectRatio: string; // Added for image aspect ratio
+  theme: 'dark' | 'dusk'; // Added for theme selection
   analysis: ScriptAnalysis | null;
   imageModel: string; // Added for model selection
   error?: string;
