@@ -14,7 +14,7 @@ export const Header: React.FC<{ theme: 'dark' | 'dusk', setTheme: (theme: 'dark'
               <Clapperboard className="w-6 h-6 text-white" />
             </div>
             <h1 className="text-xl font-bold text-white tracking-tight">
-              DraftFlow
+              StoryLine
             </h1>
           </div>
           <div className="flex items-center space-x-4">

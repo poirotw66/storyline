@@ -113,7 +113,7 @@ export const analyzeScript = async (script: string, requirements: string, era: s
 /**
  * Generates a single storyboard image based on a visual prompt.
  */
-export const generateShotImage = async (visualPrompt: string, modelName: string = ModelType.IMAGE_2_5_FLASH, aspectRatio: string = "16:9"): Promise<string | null> => {
+export const generateShotImage = async (visualPrompt: string, modelName: string = ModelType.IMAGE_FLASH_LITE, aspectRatio: string = "16:9"): Promise<string | null> => {
   try {
     // Standardized Noir/Charcoal Sketch Style for consistency
     // We enforce a dark, serious, and cinematic rough sketch look.

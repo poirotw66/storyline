@@ -74,7 +74,7 @@ export interface AppState {
 
 export enum ModelType {
   TEXT_ANALYSIS = 'gemini-3-flash-preview',
-  IMAGE_2_5_FLASH = 'gemini-2.5-flash-image',
-  NANO_BANANA_2 = 'gemini-3.1-flash-image-preview',
-  NANO_BANANA_PRO = 'gemini-3-pro-image-preview'
+  IMAGE_FLASH_LITE = 'gemini-3.1-flash-lite-image',
+  IMAGE_FLASH = 'gemini-3.1-flash-image',
+  IMAGE_PRO = 'gemini-3-pro-image'
 }
