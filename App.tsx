@@ -20,7 +20,7 @@ const INITIAL_STATE: AppState = {
   aspectRatio: '16:9',
   theme: 'dark',
   analysis: null,
-  imageModel: ModelType.IMAGE_2_5_FLASH,
+  imageModel: ModelType.IMAGE_FLASH_LITE,
   savedProjects: []
 };
 
@@ -328,14 +328,14 @@ const App: React.FC = () => {
                   </label>
                   <div className="flex flex-wrap gap-2.5">
                     {[
-                      { id: ModelType.IMAGE_2_5_FLASH, name: "Image 2.5 Flash" },
-                      { id: ModelType.NANO_BANANA_2, name: "Nano Banana 2 (3.1 Flash)" },
-                      { id: ModelType.NANO_BANANA_PRO, name: "Nano Banana Pro (3 Pro)" }
+                      { id: ModelType.IMAGE_FLASH_LITE, name: "Flash Lite (預設)" },
+                      { id: ModelType.IMAGE_FLASH, name: "Flash" },
+                      { id: ModelType.IMAGE_PRO, name: "Pro" }
                     ].map((model) => (
                       <button
                         key={model.id}
                         onClick={async () => {
-                          if (model.id === ModelType.NANO_BANANA_2 || model.id === ModelType.NANO_BANANA_PRO) {
+                          if (model.id === ModelType.IMAGE_FLASH || model.id === ModelType.IMAGE_PRO) {
                             // @ts-ignore
                             const hasKey = await window.aistudio.hasSelectedApiKey();
                             if (!hasKey) {
@@ -355,9 +355,9 @@ const App: React.FC = () => {
                       </button>
                     ))}
                   </div>
-                  {(state.imageModel === ModelType.NANO_BANANA_2 || state.imageModel === ModelType.NANO_BANANA_PRO) && (
+                  {(state.imageModel === ModelType.IMAGE_FLASH || state.imageModel === ModelType.IMAGE_PRO) && (
                     <p className="mt-2 text-xs text-slate-500 italic">
-                      提示：使用 Nano Banana 系列模型需要您在彈窗中選擇自己的付費 API Key。
+                      提示：使用進階生圖模型需要您在彈窗中選擇自己的付費 API Key。
                       <a href="https://ai.google.dev/gemini-api/docs/billing" target="_blank" rel="noreferrer" className="text-indigo-400 hover:underline ml-1">
                         了解計費詳情
                       </a>
@@ -730,7 +730,7 @@ const App: React.FC = () => {
       />
       
       <footer className="py-8 text-center text-slate-600 text-sm border-t border-slate-900 mt-12 no-print">
-         <p>Powered by Google Gemini 3 Flash & {state.imageModel.includes('3.1') ? 'Nano Banana 2' : state.imageModel.includes('3-pro') ? 'Nano Banana Pro' : 'Image 2.5 Flash'}</p>
+         <p>Powered by Google Gemini 3 Flash & {state.imageModel === ModelType.IMAGE_PRO ? 'Gemini 3 Pro Image' : state.imageModel === ModelType.IMAGE_FLASH ? 'Gemini 3.1 Flash Image' : 'Gemini 3.1 Flash Lite Image'}</p>
       </footer>
     </div>
   );
