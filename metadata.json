@@ -1,5 +1,5 @@
 {
-  "name": "Remix: 十頁分鏡",
-  "description": "一個專業的分鏡產生器，利用 Gemini 將腳本拆解為具有動態草圖、技術細節和導演批註的電影級分鏡。",
+  "name": "StoryLine",
+  "description": "AI storyboard generator: turn scripts into cinematic shot cards with charcoal sketches, technical details, and director notes via Google Gemini.",
   "requestFramePermissions": []
 }
